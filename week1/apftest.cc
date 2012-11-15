@@ -317,6 +317,61 @@ void test_big_list()
         test_assert(v[i] == i);
 }
 
+void test_insert()
+{
+    vector<std::string> v;
+    v.push_back("0");
+    v.push_back("1");
+    v.push_back("2");
+    v.push_back("3");
+
+    v.insert(v.begin() + 3, "2.5");
+    test_equals(to_string(v), "[0, 1, 2, 2.5, 3]");
+
+    v.insert(v.end(), "4");
+    test_equals(to_string(v), "[0, 1, 2, 2.5, 3, 4]");
+
+    v.insert(v.begin(), "-1");
+    test_equals(to_string(v), "[-1, 0, 1, 2, 2.5, 3, 4]");
+
+    v.clear();
+    v.push_back("0");
+    v.push_back("1");
+    v.push_back("2");
+    v.push_back("3");
+
+    v.insert(v.begin() + 1, 3, "0.5");
+    test_equals(to_string(v), "[0, 0.5, 0.5, 0.5, 1, 2, 3]");
+
+    v.insert(v.end(), 3, "4");
+    test_equals(to_string(v), "[0, 0.5, 0.5, 0.5, 1, 2, 3, 4, 4, 4]");
+}
+
+void test_erase()
+{
+    vector<std::string> v;
+    v.push_back("0");
+    v.push_back("1");
+    v.push_back("2");
+    v.push_back("3");
+
+    v.erase(v.begin());
+    test_equals(to_string(v), "[1, 2, 3]");
+
+    v.erase(v.end());
+    test_equals(to_string(v), "[1, 2]");
+
+    v.push_back("3");
+    v.push_back("4");
+    v.push_back("5");
+    v.push_back("6");
+
+    v.erase(v.begin(), v.begin() + 2);
+    test_equals(to_string(v), "[3, 4, 5, 6]");
+
+    v.erase(v.end() - 2, v.end());
+    test_equals(to_string(v), "[3, 4]");
+}
 
 void apf_run_tests()
 {
@@ -327,4 +382,7 @@ void apf_run_tests()
     run_test(test_accessors);
     run_test(test_swap);
     run_test(test_big_list);
+    run_test(test_insert);
+    run_test(test_erase);
 }
+
