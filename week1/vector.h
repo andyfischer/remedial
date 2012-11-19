@@ -4,9 +4,6 @@
 #include <cstddef>  // for size_t
 
 #include <cassert>
-#include <cstdlib>
-#include <string>
-#include <exception>
 
 // "Remedial Template Library"
 namespace rtl {
@@ -19,6 +16,8 @@ public:
     typedef size_t size_type;
     typedef T* iterator;
     typedef const T* const_iterator;
+    typedef T* reverse_iterator;
+    typedef const T* const_reverse_iterator;
 
     explicit vector()
     {
@@ -87,20 +86,20 @@ public:
         return _data + _count;
     }
 
-    iterator rbegin()
+    reverse_iterator rbegin()
     {
         return _data + _count - 1;
     }
-    const_iterator rbegin() const
+    const_reverse_iterator rbegin() const
     {
         return _data + _count - 1;
     }
 
-    iterator rend()
+    reverse_iterator rend()
     {
         return _data - 1;
     }
-    const_iterator rend() const
+    const_reverse_iterator rend() const
     {
         return _data - 1;
     }
@@ -276,7 +275,7 @@ public:
 
         _count += insertCount;
     }
-    template <typename I> void insert(I p, I first, I last)
+    template <typename I> void insert(iterator p, I first, I last)
     {
         int insertLoc = p - _data;
 

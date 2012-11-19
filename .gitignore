@@ -12,3 +12,4 @@
 *.a
 
 .gdb_history
+main.dSYM
