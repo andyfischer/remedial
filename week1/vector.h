@@ -56,10 +56,15 @@ public:
         assign(first, last);
     }
 
+    vector<T> const& operator=(vector const& rhs)
+    {
+        assign(rhs.begin(), rhs.end());
+        return *this;
+    }
+
     ~vector()
     {
         clear();
-        free(_data);
     }
 
     iterator begin()
@@ -119,12 +124,12 @@ public:
         reserve(size);
 
         if (_count < size) {
-            // Initialize new elements
+            // Not enough elements, initialize new ones.
             for (size_t i=_count; i < size; i++)
                 new (&_data[i]) T(copy);
 
         } else if (_count > size) {
-            // Delete extra elements
+            // Too many elements, destroy some.
             for (size_t i=size; i < _count; i++)
                 _data[i].~T();
         }
@@ -160,9 +165,11 @@ public:
             size_t mallocSize = newCapacity * sizeof(T);
             T* newData = (T*) malloc(mallocSize);
 
-            // Copy-construct new elements.
-            for (size_t i=0; i < _count; i++)
-                new (&newData[i]) T(at(i));
+            // Copy-construct elements over to the new space.
+            for (size_t i=0; i < _count; i++) {
+                new (&newData[i]) T(_data[i]);
+                _data[i].~T();
+            }
 
             free(_data);
             _data = newData;

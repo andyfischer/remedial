@@ -373,6 +373,84 @@ void test_erase()
     test_equals(to_string(v), "[3, 4]");
 }
 
+vector<std::string> get_sample_0_1_2_3_4()
+{
+    vector<std::string> v;
+    v.push_back("0");
+    v.push_back("1");
+    v.push_back("2");
+    v.push_back("3");
+    v.push_back("4");
+    return v;
+}
+
+vector<std::string> get_sample_4_3_2_1_0()
+{
+    vector<std::string> v;
+    v.push_back("4");
+    v.push_back("3");
+    v.push_back("2");
+    v.push_back("1");
+    v.push_back("0");
+    return v;
+}
+
+vector<std::string> get_sample_1_4_0_3_2()
+{
+    vector<std::string> v;
+    v.push_back("1");
+    v.push_back("4");
+    v.push_back("0");
+    v.push_back("3");
+    v.push_back("2");
+    return v;
+}
+
+bool string_compare(std::string const& left, std::string const& right)
+{
+    return left < right;
+}
+
+void test_merge_sort()
+{
+    vector<std::string> v = get_sample_0_1_2_3_4();
+    mergesort(v.begin(), v.end(), string_compare);
+    test_equals(to_string(v), "[0, 1, 2, 3, 4]");
+
+    v = get_sample_4_3_2_1_0();
+    mergesort(v.begin(), v.end(), string_compare);
+    test_equals(to_string(v), "[0, 1, 2, 3, 4]");
+
+    v = get_sample_1_4_0_3_2();
+    mergesort(v.begin(), v.end(), string_compare);
+    test_equals(to_string(v), "[0, 1, 2, 3, 4]");
+
+    // Try just sorting a sublist
+    v = get_sample_4_3_2_1_0();
+    mergesort(v.begin() + 1, v.end() - 1, string_compare);
+    test_equals(to_string(v), "[4, 1, 2, 3, 0]");
+}
+
+void test_quick_sort()
+{
+    vector<std::string> v = get_sample_0_1_2_3_4();
+    quicksort(v.begin(), v.end(), string_compare);
+    test_equals(to_string(v), "[0, 1, 2, 3, 4]");
+
+    v = get_sample_4_3_2_1_0();
+    quicksort(v.begin(), v.end(), string_compare);
+    test_equals(to_string(v), "[0, 1, 2, 3, 4]");
+
+    v = get_sample_1_4_0_3_2();
+    quicksort(v.begin(), v.end(), string_compare);
+    test_equals(to_string(v), "[0, 1, 2, 3, 4]");
+
+    // Try just sorting a sublist
+    v = get_sample_4_3_2_1_0();
+    quicksort(v.begin() + 1, v.end() - 1, string_compare);
+    test_equals(to_string(v), "[4, 1, 2, 3, 0]");
+}
+
 void apf_run_tests()
 {
     run_test(test_with_to_string);
@@ -384,5 +462,7 @@ void apf_run_tests()
     run_test(test_big_list);
     run_test(test_insert);
     run_test(test_erase);
+    run_test(test_merge_sort);
+    run_test(test_quick_sort);
 }
 
